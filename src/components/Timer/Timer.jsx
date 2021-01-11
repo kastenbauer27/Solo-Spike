@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux'; 
 
 class Timer extends Component {
     constructor() {
@@ -50,17 +51,30 @@ class Timer extends Component {
         if (seconds == 0) { 
           clearInterval(this.timer);
           alert('Time is up!');
+          this.props.history.push('/finalchoice');
         }
+      }
+
+      setColor = (event) => {
+          let color = event.target.value;
+          console.log(color);
+          this.props.dispatch({
+            type: 'SET_COLOR',
+            payload: color
+        });
       }
     
       render() {
         return(
           <div>
-            <button onClick={this.startTimer}>Start</button>
             m: {this.state.time.m} s: {this.state.time.s}
+            <button value="Red" onClick={(event) => this.setColor(event)}>Red</button>
+            <button value="Blue" onClick={(event) => this.setColor(event)}>Blue</button>
+            <button value="Green" onClick={(event) => this.setColor(event)}>Green</button>
+            <button value="Yellow" onClick={(event) => this.setColor(event)}>Yellow</button>
           </div>
         );
       }
 }
  
-export default Timer;
+export default connect()(Timer);
